@@ -1,5 +1,6 @@
 #include <iostream>
 using std::cout; using std::endl;
+
 #include <algorithm>
 using std::find;
 
@@ -35,13 +36,14 @@ private:
   vector<int> board;
   vector<int> lastTurn;
 
-  int numPoints=501;
-  int maxTurns=11;
+  const int numPoints=501;
+  const int maxTurns=11;
 
 
 public:
   unsigned long long calculate();
-  Dart(int np,int t){ numPoints=np; maxTurns=t;};
+  Dart(int np,int t) : numPoints(np), maxTurns(t) {}
+  Dart(){};
 
 };
 
@@ -115,7 +117,7 @@ unsigned long long Dart::internalCalc(int toScore, int turns){
 }
 
 int main(){
-  Dart d(501,11);
+  Dart d;
   cout << d.calculate() << endl;
 
   Dart e(50,2);
