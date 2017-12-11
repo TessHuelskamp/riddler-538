@@ -42,7 +42,7 @@ private:
   map<pair<int,int>,unsigned long long> cache;
 
   const int maxPoints=501;
-  const int maxTurns=11;
+  const int maxTurns=9; //woops...
 
 
 public:
