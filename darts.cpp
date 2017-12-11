@@ -29,8 +29,6 @@ using std::pair;
 class Dart{
 private:
   map<pair<int,int>,unsigned long long> cache;
-  unsigned long long internalCalc(int, int);
-  unsigned long long cacheOrCalc(int, int);
   void makeBoard();
   pair<int,int> makePair(int points, int turns){pair<int,int> result(points,turns); return result;};
 
@@ -48,20 +46,10 @@ private:
 
 public:
   unsigned long long calculate();
-  unsigned long long dypro();
-  Dart(int mp,int t) : maxPoints(mp), maxTurns(t) {}
-  Dart(){};
+  Dart(int mp,int t) : maxPoints(mp), maxTurns(t) {makeBoard();}
+  Dart(){makeBoard();};
 
 };
-
-
-unsigned long long Dart::calculate(){
-  makeBoard();
-
-  cacheOrCalc(maxPoints,maxTurns);
-  pair<int,int> key(maxPoints,maxTurns);
-  return cache[key];
-}
 
 void Dart::makeBoard(){
 
@@ -78,51 +66,9 @@ void Dart::makeBoard(){
   //add bulls eyes
   board.emplace_back(25); board.emplace_back(50);
   lastTurn.emplace_back(25); lastTurn.emplace_back(50);
-
 }
 
-unsigned long long Dart::cacheOrCalc(int toScore, int turns){
-  pair<int,int> key(toScore,turns);
-
-  auto it = cache.find(key);
-  if (it != cache.end()){
-    return cache[key];
-  } else {
-    cache[key]=internalCalc(toScore, turns);
-    return cache[key];
-  }
-
-}
-
-
-unsigned long long Dart::internalCalc(int toScore, int turns){
-
-  if (turns <= 0) return 0;
-  else if (turns==1){
-    //if what we need is in board, we win!
-    auto it = find(lastTurn.begin(), lastTurn.end(), toScore);
-    if (it != lastTurn.end()) return 1;
-    else return 0; // :(
-  } else { //this is where we check sub problems
-    unsigned long long totalPossibleWins=0;
-    for ( auto move : board){
-      //check to see if score would go to or below 0
-      //if score is 0 we'd win too early
-      //less than zero wouldn't work
-      //
-      //if score is a possible win, then check
-      if (toScore-move >0){
-        totalPossibleWins+=cacheOrCalc(toScore-move,turns-1);
-      }
-
-    }
-    return totalPossibleWins;
-  }
-}
-
-unsigned long long Dart::dypro(){
-  cache.clear();
-
+unsigned long long Dart::calculate(){
   //interface
   pair<int,int> key;
 
@@ -175,15 +121,4 @@ unsigned long long Dart::dypro(){
 int main(){
   Dart d;
   cout << d.calculate() << endl;
-  cout << d.dypro() << endl;
-
-  Dart e(121,2);
-  cout << e.calculate() << endl;
-
-  Dart f(50,1);
-  cout << f.calculate() << endl;
-
-  cout << endl << endl;
-  cout << "should not work" << e.dypro() << endl;
-
 }
