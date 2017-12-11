@@ -28,20 +28,20 @@ using std::pair;
 
 class Dart{
 private:
-  map<pair<int,int>,int> cache;
-  int internalCalc(int, int);
-  int cacheOrCalc(int, int);
+  map<pair<int,int>,unsigned long long> cache;
+  unsigned long long internalCalc(int, int);
+  unsigned long long cacheOrCalc(int, int);
   void makeBoard();
   vector<int> board;
   vector<int> lastTurn;
 
 
 public:
-  int calculate();
+  unsigned long long calculate();
 
 };
 
-int Dart::calculate(){
+unsigned long long Dart::calculate(){
   makeBoard();
 
   // *a* perfect game
@@ -69,7 +69,7 @@ void Dart::makeBoard(){
 
 }
 
-int Dart::cacheOrCalc(int toScore, int turns){
+unsigned long long Dart::cacheOrCalc(int toScore, int turns){
   pair<int,int> key(toScore,turns);
 
   auto it = cache.find(key);
@@ -83,7 +83,7 @@ int Dart::cacheOrCalc(int toScore, int turns){
 }
 
 
-int Dart::internalCalc(int toScore, int turns){
+unsigned long long Dart::internalCalc(int toScore, int turns){
 
   if (turns <= 0) return 0;
   else if (turns==1){
@@ -92,7 +92,7 @@ int Dart::internalCalc(int toScore, int turns){
     if (it != lastTurn.end()) return 1;
     else return 0; // :(
   } else { //this is where we check sub problems
-    int totalPossibleWins=0;
+    unsigned long long totalPossibleWins=0;
     for ( auto move : board){
       //check to see if score would go to or below 0
       //if score is 0 we'd win too early
