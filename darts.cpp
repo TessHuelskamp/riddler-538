@@ -35,19 +35,24 @@ private:
   vector<int> board;
   vector<int> lastTurn;
 
+  int numPoints=501;
+  int maxTurns=11;
+
 
 public:
   unsigned long long calculate();
+  Dart(int np,int t){ numPoints=np; maxTurns=t;};
 
 };
+
 
 unsigned long long Dart::calculate(){
   makeBoard();
 
   // *a* perfect game
   // 9*50 + 1 * 50 // need to end with a bulls eye or double
-  cacheOrCalc(501,11);
-  pair<int,int> key(501,11);
+  cacheOrCalc(numPoints,maxTurns);
+  pair<int,int> key(numPoints,maxTurns);
   return cache[key];
 }
 
@@ -65,7 +70,7 @@ void Dart::makeBoard(){
 
   //add bulls eyes
   board.emplace_back(25); board.emplace_back(50);
-  lastTurn.emplace_back(25); board.emplace_back(50);
+  lastTurn.emplace_back(25); lastTurn.emplace_back(50);
 
 }
 
@@ -110,9 +115,13 @@ unsigned long long Dart::internalCalc(int toScore, int turns){
 }
 
 int main(){
-  Dart d;
-
+  Dart d(501,11);
   cout << d.calculate() << endl;
 
+  Dart e(50,2);
+  cout << e.calculate() << endl;
+
+  Dart f(50,1);
+  cout << f.calculate() << endl;
 
 }
