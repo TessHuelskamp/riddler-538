@@ -1,17 +1,32 @@
-# readme
+# Darts Riddler for 538
 
-The number of different ways you could win a "perfect" games of darts for one of
-538's riddlers.
+What is the number of different ways you could throw a "perfect" game of darts?
 
-#assumptions
+The number of throws I originally picked to be the minimum number needed to win
+a perfect game was incorrect (I thought it would take 11 throws (assuming that
+50 was the highest number of points you could score on a turn) and a perfect
+game is actually 9 throws).
 
-You could hit a single multiplier in 2 different ways ("above" or "below" the
-triple multiplier).
+Even though I didn't get the correct answer in on time (at the time of
+submission, my code was "correct" but with the wrong parameters _shrug_), I had
+fun working on this problem and might turn this repo into a collection of 538
+riddler attempts.
 
-# warning
+# Assumptions
 
- * I ran out of time to submit things and this version isn't very clean or well
-   commmented. I wanted to correctly implement a solution using dynamic
-   programming but ended up just cacheing things instead (I do plan to rewrite
-   things in a way that makes more sense :D)
- * I haven't had time to check my code carefully. This answer might not be correct :D
+I decided to double, triple, or quadruple count some ways to score points as
+"different" ways to take a turn. For example, there's 4 different ways to score
+a 6. You could hit either of the single 6's (the wedge near the bullseye and the
+wedge near the edge), you could hit the double 3 wedge, or you could hit the
+triple 2 edge.
+
+I messed around with collapsing all of these different ways to score and it
+didn't affect the answer. I'm assuming that the perfect game just happens to
+only use spaces that occur once on the board.
+
+# How I did this
+
+When I was pressed for time (I forgot to account that midnight EST is 10pm
+here), I just coded up a recursive solution that lazily stored answers in a
+cache (without the cache, I couldn't compute the answer). Later, I built up the
+answer from the ground up using dynamic programming which was a fun exercise.
