@@ -4,6 +4,7 @@ import (
     "fmt"
     "math"
 )
+
 // numbers 0-9
 func zeroThrough9(n uint64) string {
     if n<0 || n>=10 { panic ("Function requires 0<=1<10:") }
@@ -154,26 +155,60 @@ func numberToString(n uint64) string{
 
 func main() {
 
-    tweetLimit:=140
-    prevWinner:=uint64(1111373000000)
+ //   tweetLimit:=140
+//    prevWinner:=uint64(1111373000000)
+//    prevWinner:=uint64(1,111,373,000,000)
+    //make the global cache
+    cache=make(map[uint64]string)
 
-    highest:=0
-    var allHighest []int
+    highestSeen:=0
+
+    allHighest:= make([]uint64,0,19)
+    allHighest:= append(allHighest, 0) //we want to check transitions
+
+
+    //find the highest we've seen until now.
+    //Since we know that for a given entry, we'll find nothing higher until we jump a power of 1000
+    //we limit the number of entries we need to check
     for i:=uint64(1) ; i<=999; i++ {
         result:=numberToString(i)
-        if len(result) > highest {
-            highest=len(result)
-            allHighest = append(allHighest, highest)
-            fmt.Println(i)
-            fmt.Println(result)
+        if len(result) > highestSeen {
+            highestSeen=len(result)
+            allHighest = append(allHighest, i)
         }
     }
+
+
+    //now we want to actually check things
+
+    for _, elm := range allHighest {
+        fmt.Println(elm)
+    }
+    fmt.Println(len(allHighest))
 
     //binary search
     //can't do a true binary search but this works
 
+
+    ///looks like permutions...
+    //if all highest is
+    // a b c
+    // we want to check
+    // a, b, c
+    // aa, ab, ac
+    // ba, bb, bc
+    // ca cb cc
+    // aaa aab aac
+    // aba abb abc
+    // aca acb acc
+
+    //not sure a good way to write this
+    //if all of the bases of 1000 are in this array, check the number. Otherwise don't
+    //it would still be better to build the numbers up somehow
+
+    //make sure that the max number we can have doesn't meet the limit....
+    maxUint:=numberToString(math.MaxUint64)
+    fmt.Println(numberToString)
+    fmt.Println(len(numberToString))
+
 }
-
-
-
-
