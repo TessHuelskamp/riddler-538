@@ -4,7 +4,6 @@ import (
     "fmt"
     "math"
 )
-
 // numbers 0-9
 func zeroThrough9(n uint64) string {
     if n<0 || n>=10 { panic ("Function requires 0<=1<10:") }
@@ -69,19 +68,28 @@ func zeroThrough99(n uint64) string {
     }
 }
 
+var global string
+var cache map[uint64]string
 func zeroThrough999(n uint64) string {
     if n<0 || n>=1000 { panic ("Function requires 0<=1<1000") }
 
     hundreds := n/100
     remainder := n%100
-    if hundreds ==0{
-        return zeroThrough99(n)
+
+    if result, ok := cache[n]; ok{
+        return result
     } else {
-        if remainder==0{
-           return zeroThrough9(hundreds) + " hundred"
+        if hundreds ==0{
+            result=zeroThrough99(n)
         } else {
-           return zeroThrough9(hundreds) + " hundred " + zeroThrough99(n%100)
+            if remainder==0{
+               result=zeroThrough9(hundreds) + " hundred"
+            } else {
+               result=zeroThrough9(hundreds) + " hundred " + zeroThrough99(n%100)
+            }
         }
+        cache[n]=result
+        return result
     }
 
 }
@@ -115,43 +123,57 @@ func numberToString(n uint64) string{
         panic ("Cookie monster can only count numbers bigger than 1")
     }
 
-    power1000:=0
+    power:=uint64(0)
+    result:=""
 
     for n >0 {
-        power1000++
-        //nextEntry:=n%1000
+        nextEntry:=n%1000
         n/=1000
+        if nextEntry!=0{
+            if power==0{
+                result = zeroThrough999(nextEntry)
+            } else if result=="" {
+                result = zeroThrough999(nextEntry) + " " + powersOf1000(power)
+            } else {
+                result = zeroThrough999(nextEntry) + " " + powersOf1000(power) + " " + result
+            }
+
+        }
+
+        power++
 
     }
 
 
-    return ""
+    //don't forget the "!"
+    return result+"!"
 
 
 }
 
 
-func main(){
+func main() {
 
-    for i:=uint64(1) ; i<=math.MaxInt64; i++ {
-        if i > 10  {
-            break
+    tweetLimit:=140
+    prevWinner:=uint64(1111373000000)
+
+    highest:=0
+    var allHighest []int
+    for i:=uint64(1) ; i<=999; i++ {
+        result:=numberToString(i)
+        if len(result) > highest {
+            highest=len(result)
+            allHighest = append(allHighest, highest)
+            fmt.Println(i)
+            fmt.Println(result)
         }
     }
 
-    testing :=[]uint64 {1, 3, 12314, 123421124134}
+    //binary search
+    //can't do a true binary search but this works
 
-    for _, entry := range testing {
-        numberToString(entry)
-    }
-
-    for i:=uint64(0) ; i<=999; i++ {
-        result:=zeroThrough999(i)
-
-        if result == "" { result="empty"
-        } else { result= "'"+ result + "'" }
-
-        fmt.Println(result)
-
-    }
 }
+
+
+
+
