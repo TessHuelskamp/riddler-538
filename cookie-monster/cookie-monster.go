@@ -234,6 +234,7 @@ func main() {
             stuff[i]=allHighest[idx]
         }
         fmt.Println(stuff)
+        fmt.Println(sliceToString(stuff[:]))
     }
     print(len(allHighest))
 
