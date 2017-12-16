@@ -164,7 +164,7 @@ func main() {
     highestSeen:=0
 
     allHighest:= make([]uint64,0,19)
-    allHighest:= append(allHighest, 0) //we want to check transitions
+    allHighest= append(allHighest, 0) //we want to check transitions
 
 
     //find the highest we've seen until now.
@@ -180,12 +180,6 @@ func main() {
 
 
     //now we want to actually check things
-
-    for _, elm := range allHighest {
-        fmt.Println(elm)
-    }
-    fmt.Println(len(allHighest))
-
     //binary search
     //can't do a true binary search but this works
 
@@ -207,8 +201,11 @@ func main() {
     //it would still be better to build the numbers up somehow
 
     //make sure that the max number we can have doesn't meet the limit....
-    maxUint:=numberToString(math.MaxUint64)
-    fmt.Println(numberToString)
-    fmt.Println(len(numberToString))
+    maxUintresult:=numberToString(math.MaxUint64)
+    fmt.Println(uint64(math.MaxUint64))
+    fmt.Println(maxUintresult)
+    fmt.Println(len(maxUintresult))
+
+
 
 }
