@@ -2,11 +2,10 @@ package main
 
 import (
     "fmt"
-    "math"
 )
 
 // numbers 0-9
-func zeroThrough9(n uint64) string {
+func zeroThrough9(n int) string {
     if n<0 || n>=10 { panic ("Function requires 0<=1<10:") }
 
     switch n {
@@ -24,7 +23,7 @@ func zeroThrough9(n uint64) string {
     }
 }
 
-func teens(n uint64) string {
+func teens(n int) string {
     if n<10 || n>=20 { panic ("Function requires 0<=1<100") }
 
     switch n {
@@ -42,7 +41,7 @@ func teens(n uint64) string {
     }
 }
 
-func zeroThrough99(n uint64) string {
+func zeroThrough99(n int) string {
     if n<0 || n>=100 { panic ("Function requires 0<=1<100") }
 
     ones := n%10
@@ -70,8 +69,8 @@ func zeroThrough99(n uint64) string {
 }
 
 var global string
-var cache map[uint64]string
-func zeroThrough999(n uint64) string {
+var cache map[int]string
+func zeroThrough999(n int) string {
     if n<0 || n>=1000 { panic ("Function requires 0<=1<1000") }
 
     hundreds := n/100
@@ -95,7 +94,7 @@ func zeroThrough999(n uint64) string {
 
 }
 
-func powersOf1000(n uint64) string{
+func powersOf1000(n int) string{
     switch n{
     case 0: return ""
     case 1: return "thousand"
@@ -103,7 +102,7 @@ func powersOf1000(n uint64) string{
     case 3: return "billion"
     case 4: return "trillion"
     case 5: return "quadrillion"
-    case 6: return "quintillion"
+    case 6: return "qintillion"
     case 7: return "sextillion"
     case 8: return "septillion"
     case 9: return "octillion"
@@ -116,18 +115,31 @@ func powersOf1000(n uint64) string{
 
 }
 
+func numberToString(n int) string{
+    theSlice:= make([]int,0,10)
+
+    for n>0{
+        next := n%1000
+        theSlice = append(theSlice, next)
+        n/=1000
+    }
+
+
+    return sliceToString(theSlice)
+
+}
+
 //wrapper to convert all numbers (bigger than 0) to a string
-func numberToString(n uint64) string{
-    if n <= 0 {
+func sliceToString(reverseSorted []int) string{
+    if len(reverseSorted) <= 0 {
         //cookie monster is 1-indexed:)
         //this isn't the go way of handling errors (I'll learn that later)
         panic ("Cookie monster can only count numbers bigger than 1")
     }
 
-    power:=uint64(0)
     result:=""
 
-    for n >0 {
+    for power, n := range reverseSorted {
         nextEntry:=n%1000
         n/=1000
         if nextEntry!=0{
@@ -140,43 +152,52 @@ func numberToString(n uint64) string{
             }
 
         }
-
         power++
 
     }
 
-
     //don't forget the "!"
     return result+"!"
+}
 
-
+func printSlice(reverseSorted []int) string{
+    //reverse how we print the string
+    return "not done yet"
 }
 
 
 func main() {
 
  //   tweetLimit:=140
-//    prevWinner:=uint64(1111373000000)
-//    prevWinner:=uint64(1,111,373,000,000)
+//    prevWinner:=int(1111373000000)
+//    prevWinner:=int(1,111,373,000,000)
     //make the global cache
-    cache=make(map[uint64]string)
+    cache=make(map[int]string)
 
     highestSeen:=0
 
-    allHighest:= make([]uint64,0,19)
+    allHighest:= make([]int,0,19)
     allHighest= append(allHighest, 0) //we want to check transitions
 
 
     //find the highest we've seen until now.
     //Since we know that for a given entry, we'll find nothing higher until we jump a power of 1000
     //we limit the number of entries we need to check
-    for i:=uint64(1) ; i<=999; i++ {
+    for i:=int(1) ; i<=999; i++ {
         result:=numberToString(i)
         if len(result) > highestSeen {
             highestSeen=len(result)
             allHighest = append(allHighest, i)
         }
+
     }
+
+    testSlice:=[]int{373, 373, 373, 111, 1}
+
+    r:= sliceToString(testSlice)
+    fmt.Println(r)
+    fmt.Println(len(r))
+
 
 
     //now we want to actually check things
@@ -199,13 +220,5 @@ func main() {
     //not sure a good way to write this
     //if all of the bases of 1000 are in this array, check the number. Otherwise don't
     //it would still be better to build the numbers up somehow
-
-    //make sure that the max number we can have doesn't meet the limit....
-    maxUintresult:=numberToString(math.MaxUint64)
-    fmt.Println(uint64(math.MaxUint64))
-    fmt.Println(maxUintresult)
-    fmt.Println(len(maxUintresult))
-
-
 
 }

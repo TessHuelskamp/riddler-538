@@ -18,7 +18,8 @@ there's no reason to check 1-16 after we add the next 1000)
 * "Five hundred thirty eight!"
 * "One trillion one hundred eleven billion three hundred seventy three million
   three hundred seventy three thousand three hundred seventy two!"
-1 111 373 000 000
+1 111 373 373 372
+//373 broke things one we find the number that busts 140, step down until you're below things
   * That was the answer to the last problem (when twitter only allowed you to
     tweet 280 chars).
   * For testing, I'll set the limit to be 140 characters and make sure I arive at this answer.
