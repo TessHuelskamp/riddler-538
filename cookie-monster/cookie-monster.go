@@ -6,11 +6,10 @@ import (
 )
 
 // numbers 0-9
-func zeroThrough9(n uint64) string{
-    if n<0 || n>=10 {
-        panic ("Function requires 0<=1<10:")
-    }
-    switch n{
+func zeroThrough9(n uint64) string {
+    if n<0 || n>=10 { panic ("Function requires 0<=1<10:") }
+
+    switch n {
     case 0: return ""
     case 1: return "one"
     case 2: return "two"
@@ -26,11 +25,9 @@ func zeroThrough9(n uint64) string{
 }
 
 func teens(n uint64) string {
-    if n<10 || n>=20 {
-        panic ("Function requires 0<=1<100")
-    }
+    if n<10 || n>=20 { panic ("Function requires 0<=1<100") }
 
-    switch n{
+    switch n {
     case 10: return "ten"
     case 11: return "eleven"
     case 12: return "twelve"
@@ -46,9 +43,7 @@ func teens(n uint64) string {
 }
 
 func zeroThrough99(n uint64) string {
-    if n<0 || n>=100 {
-        panic ("Function requires 0<=1<100")
-    }
+    if n<0 || n>=100 { panic ("Function requires 0<=1<100") }
 
     ones := n%10
     tens := n/10
@@ -67,21 +62,15 @@ func zeroThrough99(n uint64) string {
     default: panic ("invalid number passed in")
     }
 
-    if tens==0{
+    if tens==0 || ones==0 {
         return intermediate
     } else {
-        if ones==0{
-            return intermediate
-        } else {
-            return intermediate + " " + zeroThrough9(ones)
-        }
+        return intermediate + " " + zeroThrough9(ones)
     }
 }
 
 func zeroThrough999(n uint64) string {
-    if n<0 || n>=1000 {
-        panic ("Function requires 0<=1<1000")
-    }
+    if n<0 || n>=1000 { panic ("Function requires 0<=1<1000") }
 
     hundreds := n/100
     remainder := n%100
@@ -135,8 +124,13 @@ func main(){
         numberToString(entry)
     }
 
-    for i:=uint64(1) ; i<=999; i++ {
-        fmt.Println("'",zeroThrough999(i),"'")
+    for i:=uint64(0) ; i<=999; i++ {
+        result:=zeroThrough999(i)
+
+        if result == "" { result="empty"
+        } else { result= "'"+ result + "'" }
+
+        fmt.Println(result)
 
     }
 }
