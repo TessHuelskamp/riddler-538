@@ -228,15 +228,19 @@ func main() {
 
     incrementer:=countClosure(len(allHighest))
 
-    for i:=1 ; i < 60; i++{
+    for 1<2{
         stuff:=incrementer()
         for i, idx := range(stuff){
             stuff[i]=allHighest[idx]
         }
-        fmt.Println(stuff)
-        fmt.Println(sliceToString(stuff[:]))
+        l:=sliceToString(stuff[:])
+        if len (l) > 140{
+            fmt.Println(l)
+            fmt.Println(stuff)
+            break
+            //okay we walk it back from here willl do later
+        }
     }
-    print(len(allHighest))
 
 
     //now we want to actually check things
