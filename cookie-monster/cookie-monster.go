@@ -230,6 +230,9 @@ func main() {
 
     for i:=1 ; i < 60; i++{
         stuff:=incrementer()
+        for i, idx := range(stuff){
+            stuff[i]=allHighest[idx]
+        }
         fmt.Println(stuff)
     }
     print(len(allHighest))
