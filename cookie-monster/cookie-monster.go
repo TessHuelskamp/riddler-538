@@ -86,6 +86,27 @@ func zeroThrough999(n uint64) string {
 
 }
 
+func powersOf1000(n uint64) string{
+    switch n{
+    case 0: return ""
+    case 1: return "thousand"
+    case 2: return "million"
+    case 3: return "billion"
+    case 4: return "trillion"
+    case 5: return "quadrillion"
+    case 6: return "quintillion"
+    case 7: return "sextillion"
+    case 8: return "septillion"
+    case 9: return "octillion"
+    case 10: return "nonillion"
+    case 11: return "decillion"
+    case 12: return "undecillion"
+    default: panic ("don't know how to count this high")
+    }
+
+
+}
+
 //wrapper to convert all numbers (bigger than 0) to a string
 func numberToString(n uint64) string{
     if n <= 0 {
