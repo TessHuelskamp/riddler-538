@@ -166,6 +166,31 @@ func printSlice(reverseSorted []int) string{
 }
 
 
+func countClosure(mod int) func() [20]int {
+    var toCount [20]int
+    max:=mod
+    return func() [20]int{
+        //add one to beginning
+        toCount[0]+=1
+
+        //carry things up if we need to
+        for i:=0; i<len(toCount); i++{
+            if toCount[i]>=max{
+                toCount[i]=0
+                if i+1 <len(toCount){
+                    toCount[i+1]+=1
+                }
+
+            } else {
+                break
+            }
+        }
+        return toCount
+    }
+}
+
+
+
 func main() {
 
  //   tweetLimit:=140
@@ -198,6 +223,16 @@ func main() {
     fmt.Println(r)
     fmt.Println(len(r))
 
+
+
+
+    incrementer:=countClosure(len(allHighest))
+
+    for i:=1 ; i < 60; i++{
+        stuff:=incrementer()
+        fmt.Println(stuff)
+    }
+    print(len(allHighest))
 
 
     //now we want to actually check things
