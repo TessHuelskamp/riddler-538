@@ -234,11 +234,13 @@ func main() {
             stuff[i]=allHighest[idx]
         }
         l:=sliceToString(stuff[:])
-        if len (l) > 140{
+        if len (l) > 280{
             fmt.Println(l)
             fmt.Println(stuff)
             break
             //okay we walk it back from here willl do later
+            //also this is taking forever so I'll need to search more effl
+            //this code is also terrible but I did it literally as the plane was landing
         }
     }
 
