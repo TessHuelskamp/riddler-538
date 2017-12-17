@@ -236,7 +236,7 @@ func main() {
     // of the indicies of transitionPoints we need to check
     incrementer:=countClosure(len(transitionPoints))
     var answerSlice []int
-    tweetLimit:=140
+    tweetLimit:=280
 
     for {
         indicies:=incrementer()
