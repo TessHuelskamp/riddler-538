@@ -241,31 +241,32 @@ func main() {
     //incrementer is a helper function that returns a slice
     // of the indicies of transitionPoints we need to check
     incrementer:=countClosure(len(transitionPoints))
-    found:=0
+    var answerSlice []int
 
     for {
         indicies:=incrementer()
 
         //generate the number we need to check from the indicies of transition points
-        number:=make([]int,len(indicies))
-        for i, idx := range(indicies){ number[i]=transitionPoints[idx] }
+        numberSlice:=make([]int,len(indicies))
+        for i, idx := range(indicies){ numberSlice[i]=transitionPoints[idx] }
 
-        numberString:=SliceToString(number)
+        numberString:=SliceToString(numberSlice)
         if len (numberString) > 280{
-            fmt.Println(numberString)
-            fmt.Println(number)
+            answerSlice=numberSlice
             break
-            //okay we walk it back from here willl do later
-            //also this is taking forever so I'll need to search more effl
-            //this code is also terrible but I did it literally as the plane was landing
         }
-        if len (numberString) > 140 && found!=1{
-            found=1
-            fmt.Println(numberString)
-            fmt.Println(number)
-            fmt.Println(printSlice(number[:]))
+        if len (numberString) > 140{
+            answerSlice=numberSlice
             break
         }
     }
+
+    //the number we found is just over the limit so we subtract one and then print it
+    answerSlice[0]-=1
+    answerFullString:=SliceToString(answerSlice)
+    answerIntString:=printSlice(answerSlice)
+
+    fmt.Println(answerFullString)
+    fmt.Println(answerIntString)
 
 }
