@@ -2,6 +2,7 @@ package main
 
 import (
     "fmt"
+    "strconv"
 )
 
 // numbers 0-9
@@ -137,9 +138,33 @@ func SliceToString(reverseSorted []int) string{
     return result+"!"
 }
 
+//print a reverse sorted slice like an int
 func printSlice(reverseSorted []int) string{
-    //reverse how we print the string
-    return "not done yet"
+    //while the last entry is=0, remove the last element
+    for reverseSorted[len(reverseSorted)-1]==0 {
+        reverseSorted=reverseSorted[:len(reverseSorted)-1]
+    }
+
+    //reconstruct element from right to left
+    result:=""
+    for i, entry := range reverseSorted{
+
+        //don't pad if we're last digit or if we're bigger than 100
+        if i==len(reverseSorted)-1 || entry >=100{
+            result=strconv.Itoa(entry)+result
+
+        //lazy padding here on out
+        } else if entry==0 {
+            result="000"
+        } else if entry <=9 {
+            result="00"+ strconv.Itoa(entry)+result
+        } else {
+            result="0"+ strconv.Itoa(entry)+result
+        }
+
+    }
+
+    return result
 }
 
 
@@ -228,6 +253,7 @@ func main() {
             found=1
             fmt.Println(l)
             fmt.Println(stuff)
+            fmt.Println(printSlice(stuff[:]))
             break
         }
     }
