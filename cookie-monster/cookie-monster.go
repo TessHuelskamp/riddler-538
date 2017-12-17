@@ -204,14 +204,6 @@ func main() {
 //    prevWinner:=int(1111373373372) //the three digit is the one that goes over so we have to subtract one from our number
 //    1,111,373,373,373
 
-    //make the global cachefor numbers 0-999
-    cache=make(map[int]string)
-
-    highestSeen:=0
-
-    allHighest:= make([]int,0)
-    allHighest= append(allHighest, 0) //we want to check transitions
-
 
     // store the numbers that are higher than numbers previous to them
     // for example, three is the (first) longest number between 1 and 9
@@ -227,37 +219,49 @@ func main() {
     //
     // Realizing that, we store all of the numbers are transition points
     // between 1 and 999 and then check those to see when we go over 280 characters
-    //we limit the number of entries we need to check
+    // we limit the number of entries we need to check
+    highestSeen:=0
+
+    transitionPoints:= make([]int,0)
+    transitionPoints= append(transitionPoints, 0) //we want to check transitions
+
+    // also make the global cachefor numbers 0-999
+    cache=make(map[int]string)
+
     for i:=1 ; i<=999; i++ {
         result:=SliceToString([]int{i})
         if len(result) > highestSeen {
             highestSeen=len(result)
-            allHighest = append(allHighest, i)
+            transitionPoints = append(transitionPoints, i)
         }
     }
 
-    incrementer:=countClosure(len(allHighest))
+
+
+    //incrementer is a helper function that returns a slice
+    // of the indicies of transitionPoints we need to check
+    incrementer:=countClosure(len(transitionPoints))
     found:=0
 
     for {
-        stuff:=incrementer()
-        number:=make([]int,len(stuff))
-        for i, idx := range(stuff){
-            number[i]=allHighest[idx]
-        }
+        indicies:=incrementer()
 
-        l:=SliceToString(number)
-        if len (l) > 280{
-            fmt.Println(l)
+        //generate the number we need to check from the indicies of transition points
+        number:=make([]int,len(indicies))
+        for i, idx := range(indicies){ number[i]=transitionPoints[idx] }
+
+        numberString:=SliceToString(number)
+        if len (numberString) > 280{
+            fmt.Println(numberString)
             fmt.Println(number)
             break
             //okay we walk it back from here willl do later
             //also this is taking forever so I'll need to search more effl
             //this code is also terrible but I did it literally as the plane was landing
         }
-        if len (l) > 140 && found!=1{
+        if len (numberString) > 140 && found!=1{
             found=1
-            fmt.Println(l)
+            fmt.Println(numberString)
             fmt.Println(number)
             fmt.Println(printSlice(number[:]))
             break
