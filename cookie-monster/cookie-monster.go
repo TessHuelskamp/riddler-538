@@ -168,24 +168,28 @@ func printSlice(reverseSorted []int) string{
 }
 
 
-func countClosure(mod int) func() [20]int {
-    var toCount [20]int
+func countClosure(mod int) func() []int {
+    toCount:=make([]int,1,20)
+    toCount[0]=0
     max:=mod
-    return func() [20]int{
+
+    return func() []int{
+
         //add one to beginning
         toCount[0]+=1
 
         //carry things up if we need to
-        for i:=0; i<len(toCount); i++{
-            if toCount[i]>=max{
-                toCount[i]=0
-                if i+1 <len(toCount){
-                    toCount[i+1]+=1
-                }
+        idx:=0
+        for toCount[idx]>=max{
+            toCount[idx]=0
 
+            if idx+1==len(toCount){
+                toCount=append(toCount, 1)
             } else {
-                break
+                toCount[idx+1]+=1
             }
+
+            idx+=1
         }
         return toCount
     }
@@ -237,13 +241,15 @@ func main() {
 
     for {
         stuff:=incrementer()
+        number:=make([]int,len(stuff))
         for i, idx := range(stuff){
-            stuff[i]=allHighest[idx]
+            number[i]=allHighest[idx]
         }
-        l:=SliceToString(stuff[:])
+
+        l:=SliceToString(number)
         if len (l) > 280{
             fmt.Println(l)
-            fmt.Println(stuff)
+            fmt.Println(number)
             break
             //okay we walk it back from here willl do later
             //also this is taking forever so I'll need to search more effl
@@ -252,8 +258,8 @@ func main() {
         if len (l) > 140 && found!=1{
             found=1
             fmt.Println(l)
-            fmt.Println(stuff)
-            fmt.Println(printSlice(stuff[:]))
+            fmt.Println(number)
+            fmt.Println(printSlice(number[:]))
             break
         }
     }
