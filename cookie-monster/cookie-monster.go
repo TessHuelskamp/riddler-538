@@ -7,8 +7,7 @@ import (
 // numbers 0-9
 func zeroThrough9(n int) string {
     if n<0 || n>=10 { panic ("Function requires 0<=1<10:") }
-
-    switch n {
+switch n {
     case 0: return ""
     case 1: return "one"
     case 2: return "two"
@@ -68,7 +67,6 @@ func zeroThrough99(n int) string {
     }
 }
 
-var global string
 var cache map[int]string
 func zeroThrough999(n int) string {
     if n<0 || n>=1000 { panic ("Function requires 0<=1<1000") }
@@ -95,7 +93,7 @@ func zeroThrough999(n int) string {
 }
 
 func powersOf1000(n int) string{
-    switch n{
+    switch n {
     case 0: return ""
     case 1: return "thousand"
     case 2: return "million"
@@ -109,33 +107,18 @@ func powersOf1000(n int) string{
     case 10: return "nonillion"
     case 11: return "decillion"
     case 12: return "undecillion"
-    default: panic ("don't know how to count this high")
+    default: panic ("Don't know how to count this high")
     }
 
-
-}
-
-func numberToString(n int) string{
-    theSlice:= make([]int,0,10)
-
-    for n>0{
-        next := n%1000
-        theSlice = append(theSlice, next)
-        n/=1000
-    }
-
-
-    return sliceToString(theSlice)
 
 }
 
 //wrapper to convert all numbers (bigger than 0) to a string
-func sliceToString(reverseSorted []int) string{
-    if len(reverseSorted) <= 0 {
-        //cookie monster is 1-indexed:)
-        //this isn't the go way of handling errors (I'll learn that later)
-        panic ("Cookie monster can only count numbers bigger than 1")
-    }
+//reverseSorted is a number that's broken down into powers of 1000
+//
+// 0th index is sequence[0]*1000^1 + sequence[1]*1000^2 + ... + sequence[n-1]*1000^n
+func SliceToString(reverseSorted []int) string{
+    if len(reverseSorted) == 0 { panic ("empty slice passed in") }
 
     result:=""
 
@@ -157,7 +140,11 @@ func sliceToString(reverseSorted []int) string{
     }
 
     //don't forget the "!"
-    return result+"!"
+    if result=="" {
+        return "zero!"
+    } else {
+        return result+"!"
+    }
 }
 
 func printSlice(reverseSorted []int) string{
@@ -194,46 +181,51 @@ func countClosure(mod int) func() [20]int {
 func main() {
 
  //   tweetLimit:=140
-//    prevWinner:=int(1111373000000)
-//    prevWinner:=int(1,111,373,000,000)
-    //make the global cache
+//    prevWinner:=int(1111373373373)
+//    prevWinner:=int(1111373373372) //the three digit is the one that goes over so we have to subtract one from our number
+//    1,111,373,373,373
+
+    //make the global cachefor numbers 0-999
     cache=make(map[int]string)
 
     highestSeen:=0
 
-    allHighest:= make([]int,0,19)
+    allHighest:= make([]int,0)
     allHighest= append(allHighest, 0) //we want to check transitions
 
 
-    //find the highest we've seen until now.
-    //Since we know that for a given entry, we'll find nothing higher until we jump a power of 1000
+    // store the numbers that are higher than numbers previous to them
+    // for example, three is the (first) longest number between 1 and 9
+    // one : 3
+    // two : 3
+    // three : *5*
+    // four : 4
+    // five : 4
+    // six : 3
+    // seven : 5 (but we've already seen three)
+    // eight : 5 (but we've already seen three)
+    // nine : 4
+    //
+    // Realizing that, we store all of the numbers are transition points
+    // between 1 and 999 and then check those to see when we go over 280 characters
     //we limit the number of entries we need to check
-    for i:=int(1) ; i<=999; i++ {
-        result:=numberToString(i)
+    for i:=0 ; i<=999; i++ {
+        result:=SliceToString([]int{i})
         if len(result) > highestSeen {
             highestSeen=len(result)
             allHighest = append(allHighest, i)
         }
-
     }
 
-    testSlice:=[]int{373, 373, 373, 111, 1}
-
-    r:= sliceToString(testSlice)
-    fmt.Println(r)
-    fmt.Println(len(r))
-
-
-
-
     incrementer:=countClosure(len(allHighest))
+    found:=0
 
     for 1<2{
         stuff:=incrementer()
         for i, idx := range(stuff){
             stuff[i]=allHighest[idx]
         }
-        l:=sliceToString(stuff[:])
+        l:=SliceToString(stuff[:])
         if len (l) > 280{
             fmt.Println(l)
             fmt.Println(stuff)
@@ -242,28 +234,11 @@ func main() {
             //also this is taking forever so I'll need to search more effl
             //this code is also terrible but I did it literally as the plane was landing
         }
+        if len (l) > 140 && found!=1{
+            found=1
+            fmt.Println(l)
+            fmt.Println(stuff)
+        }
     }
-
-
-    //now we want to actually check things
-    //binary search
-    //can't do a true binary search but this works
-
-
-    ///looks like permutions...
-    //if all highest is
-    // a b c
-    // we want to check
-    // a, b, c
-    // aa, ab, ac
-    // ba, bb, bc
-    // ca cb cc
-    // aaa aab aac
-    // aba abb abc
-    // aca acb acc
-
-    //not sure a good way to write this
-    //if all of the bases of 1000 are in this array, check the number. Otherwise don't
-    //it would still be better to build the numbers up somehow
 
 }
