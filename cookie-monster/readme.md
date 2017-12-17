@@ -1,30 +1,35 @@
 # cookie monster problem
 
-What is the highest spelled out number that you can tweet (now in 280 chars)
+What is the highest spelled out number that you can tweet (now in 280 chars).
 
-> Cookie monster alwaus ends his counting with an "!" at the end of the number
+# Answer
+chars: 279
+spelled out: one hundred three sextillion three hundred twenty three qintillion three hundred seventy three quadrillion three hundred seventy three trillion three hundred seventy three billion three hundred seventy three million three hundred seventy three thousand three hundred seventy two!
+as int: 103323373373373373373372
 
-# plan to solve this
+# Notes
+* The git repo is a mess (I started coding this at 7am after waking up at 4 to
+  drive a few hours to the airport).
+  * I decided to brute force this (before checking if the 140 char's solution
+    was near max Uint64...
+  * Then I decided to brute force using the powers of 1000 slice (before I
+    realized that was a stupid idea too :D)
+* Finally I relized I didn't have to check all of the numbers and checked the
+  transition points (explanation in code)
+* This worked fine for 140 characters but took about 2.5 hours for 280.
+* I didn't have time to implement a possible better search strategy but think
+  it could've sped things up considerably.
+  * The thought there was to add the largest string for each power of 1000
+    until I went over and then search there.
+  * Pseudo code/execution
+```
+check largest*1000^1
+check largest*1000^1 + largest*1000^2
+check largest*1000^1 + largest*1000^2 + largest*1000^3
+...
+at power 5 we go over?
+start checking from (largest*1000^1 + largest*1000^2 + largest*1000^3 +largest*1000^4) on
+```
+* I also wanted to put all of the number functions in their own class/module 
+  but am new to go and ran out of time for that.
 
-For now, I'm just going to brute force the solution (It's 7
-am at an airport and this is the best I've got). Later, I could search for the
-number more efficiently by caching 1-999 and finding (as you go up from 1) which
-strings are the longest we've seen so far (if spelledOut(17) > spelledOut(x<17),
-there's no reason to check 1-16 after we add the next 1000)
-
-# examples for testing
-> I mostly want to make sure I have the syntax for this right
-
-* "Five hundred thirty eight!"
-* "One trillion one hundred eleven billion three hundred seventy three million
-  three hundred seventy three thousand three hundred seventy two!"
-1 111 373 373 372
-//373 broke things one we find the number that busts 140, step down until you're below things
-  * That was the answer to the last problem (when twitter only allowed you to
-    tweet 280 chars).
-  * For testing, I'll set the limit to be 140 characters and make sure I arive at this answer.
-
-# what comes after a trillion
-
-Quadrillion Quintillion Sextillion Septillion Octillion Nonillion Decillion
-Undecillion
