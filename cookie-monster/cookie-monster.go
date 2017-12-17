@@ -242,6 +242,7 @@ func main() {
     // of the indicies of transitionPoints we need to check
     incrementer:=countClosure(len(transitionPoints))
     var answerSlice []int
+    tweetLimit:=140
 
     for {
         indicies:=incrementer()
@@ -250,18 +251,19 @@ func main() {
         numberSlice:=make([]int,len(indicies))
         for i, idx := range(indicies){ numberSlice[i]=transitionPoints[idx] }
 
+        //generate the string
         numberString:=SliceToString(numberSlice)
-        if len (numberString) > 280{
-            answerSlice=numberSlice
-            break
-        }
-        if len (numberString) > 140{
+
+        //check it
+        if len (numberString) > tweetLimit{
             answerSlice=numberSlice
             break
         }
     }
 
-    //the number we found is just over the limit so we subtract one and then print it
+    //the number we found is just over the limit so we subtract one
+    //(the 999^0 is in answerSlice[0]
+    //and then print it
     answerSlice[0]-=1
     answerFullString:=SliceToString(answerSlice)
     answerIntString:=printSlice(answerSlice)
