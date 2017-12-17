@@ -140,11 +140,7 @@ func SliceToString(reverseSorted []int) string{
     }
 
     //don't forget the "!"
-    if result=="" {
-        return "zero!"
-    } else {
-        return result+"!"
-    }
+    return result+"!"
 }
 
 func printSlice(reverseSorted []int) string{
@@ -209,7 +205,7 @@ func main() {
     // Realizing that, we store all of the numbers are transition points
     // between 1 and 999 and then check those to see when we go over 280 characters
     //we limit the number of entries we need to check
-    for i:=0 ; i<=999; i++ {
+    for i:=1 ; i<=999; i++ {
         result:=SliceToString([]int{i})
         if len(result) > highestSeen {
             highestSeen=len(result)
