@@ -199,12 +199,6 @@ func countClosure(mod int) func() []int {
 
 func main() {
 
- //   tweetLimit:=140
-//    prevWinner:=int(1111373373373)
-//    prevWinner:=int(1111373373372) //the three digit is the one that goes over so we have to subtract one from our number
-//    1,111,373,373,373
-
-
     // store the numbers that are higher than numbers previous to them
     // for example, three is the (first) longest number between 1 and 9
     // one : 3
@@ -268,7 +262,8 @@ func main() {
     answerFullString:=SliceToString(answerSlice)
     answerIntString:=printSlice(answerSlice)
 
-    fmt.Println(answerFullString)
-    fmt.Println(answerIntString)
+    fmt.Println("chars:", len(answerFullString))
+    fmt.Println("spelled out:", answerFullString)
+    fmt.Println("as int:", answerIntString)
 
 }
