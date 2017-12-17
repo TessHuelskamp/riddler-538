@@ -235,7 +235,7 @@ func main() {
     incrementer:=countClosure(len(allHighest))
     found:=0
 
-    for 1<2{
+    for {
         stuff:=incrementer()
         for i, idx := range(stuff){
             stuff[i]=allHighest[idx]
