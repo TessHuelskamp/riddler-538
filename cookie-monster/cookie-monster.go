@@ -7,7 +7,8 @@ import (
 // numbers 0-9
 func zeroThrough9(n int) string {
     if n<0 || n>=10 { panic ("Function requires 0<=1<10:") }
-switch n {
+
+    switch n {
     case 0: return ""
     case 1: return "one"
     case 2: return "two"
@@ -60,36 +61,33 @@ func zeroThrough99(n int) string {
     default: panic ("invalid number passed in")
     }
 
-    if tens==0 || ones==0 {
-        return intermediate
-    } else {
-        return intermediate + " " + zeroThrough9(ones)
-    }
+    if tens==0 || ones==0 { return intermediate
+    } else { return intermediate + " " + zeroThrough9(ones) }
 }
 
+//yes this a global var but I wasn't sure how to deal with this in go
 var cache map[int]string
 func zeroThrough999(n int) string {
     if n<0 || n>=1000 { panic ("Function requires 0<=1<1000") }
 
+    // if we've already calculated the number, return it
+    if result, ok := cache[n]; ok{ return result }
+
+    result:=""
     hundreds := n/100
     remainder := n%100
 
-    if result, ok := cache[n]; ok{
-        return result
+    if hundreds==0{
+        result=zeroThrough99(n)
+    } else if remainder ==0 {
+       result=zeroThrough9(hundreds) + " hundred"
     } else {
-        if hundreds ==0{
-            result=zeroThrough99(n)
-        } else {
-            if remainder==0{
-               result=zeroThrough9(hundreds) + " hundred"
-            } else {
-               result=zeroThrough9(hundreds) + " hundred " + zeroThrough99(n%100)
-            }
-        }
-        cache[n]=result
-        return result
+       result=zeroThrough9(hundreds) + " hundred " + zeroThrough99(n%100)
     }
 
+    //store and return result
+    cache[n]=result
+    return result
 }
 
 func powersOf1000(n int) string{
@@ -113,30 +111,26 @@ func powersOf1000(n int) string{
 
 }
 
-//wrapper to convert all numbers (bigger than 0) to a string
-//reverseSorted is a number that's broken down into powers of 1000
+// wrapper to convert all numbers (bigger than 0) to a string
+// reverseSorted is a number that's broken down into powers of 1000
 //
-// 0th index is sequence[0]*1000^1 + sequence[1]*1000^2 + ... + sequence[n-1]*1000^n
+// to contruct number do:
+// sequence[0]*1000^1 + sequence[1]*1000^2 + ... + sequence[n-1]*1000^n
 func SliceToString(reverseSorted []int) string{
     if len(reverseSorted) == 0 { panic ("empty slice passed in") }
 
     result:=""
 
-    for power, n := range reverseSorted {
-        nextEntry:=n%1000
-        n/=1000
-        if nextEntry!=0{
-            if power==0{
-                result = zeroThrough999(nextEntry)
-            } else if result=="" {
-                result = zeroThrough999(nextEntry) + " " + powersOf1000(power)
-            } else {
-                result = zeroThrough999(nextEntry) + " " + powersOf1000(power) + " " + result
-            }
-
+    //build up the answer walking along the number
+    for power, entry := range reverseSorted {
+        if entry==0{ //do nothing
+        } else if  power==0 {
+            result = zeroThrough999(entry)
+        } else if result=="" {
+            result = zeroThrough999(entry) + " " + powersOf1000(power)
+        } else {
+            result = zeroThrough999(entry) + " " + powersOf1000(power) + " " + result
         }
-        power++
-
     }
 
     //don't forget the "!"
@@ -234,6 +228,7 @@ func main() {
             found=1
             fmt.Println(l)
             fmt.Println(stuff)
+            break
         }
     }
 
