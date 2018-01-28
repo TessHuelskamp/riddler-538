@@ -28,3 +28,25 @@ opposite of those votes (`95-5` and `9-91`) are not palindromes.
 To check this, I just brute forced all possible voting combinations and checked
 which ones are palindromes. The 211 palindromes are in the `palindromes.ssv`
 file in this directory.
+
+# EXTRA CREDIT
+The extra credit question asked how many times the senate had voted in a
+palindrome in the last three decades. I've never messed  with webscraping before
+and thought it would be fun to write something up.
+
+## Notes
+* I used the `html.parser` library
+  * I didn't use the `beautiful_soup` library because I couldn't get it
+    installed correctly got tired of messing around with my system.
+  * I would've preferred to use that library (instead of writing a class to
+    extend the `HTMLParser` class) but here we are.
+  * To run this code, you'll need to install the `html` python library (`pip
+    install html`) if you haven't already.
+* For the ordering of the votes (matters for votes like `90-9` vs. `9-90`) I
+  used the yea nay order listed on senate.gov itself.
+* Like before, I assumed that the dash isn't part of the string we consider for
+  palindrome checking.
+
+## Results
+The senate had a vote that resulted in a palindrome *247* times in the last
+three decades. All of the votes are listed in the `all-palindromes-extra-credit.txt` file.
