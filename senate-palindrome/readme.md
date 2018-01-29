@@ -10,7 +10,7 @@ Text of the Riddler:
 
 # Assumptions
 
-* The dash(-) separating the ayes and the nays isn't part of the vote
+* The hyphen(-) separating the yeas and the nays isn't part of the vote
   representation.
   * This assumption is necessary to find a palindrome with the entire senate
     present.
@@ -18,6 +18,9 @@ Text of the Riddler:
   up the quorum/vote abstention rules).
 * Any number of senators can vote for or against a bill (this means that votes
   like `0-90` are palindromes).
+* I don't count the leading 0 in numbers less than 10; e.g., the vote is
+  `90-9` not `90-09`. I don't think this makes a difference in the total number
+  of palindromes though.
 
 # Solution
 
@@ -31,20 +34,23 @@ file in this directory.
 
 # EXTRA CREDIT
 The extra credit question asked how many times the senate had voted in a
-palindrome in the last three decades. I've never messed  with webscraping before
+palindrome in the last three decades. I've never messed with webscraping before
 and thought it would be fun to write something up.
+
+The base of the data is stored [here](https://www.senate.gov/legislative/votes.htm)
+
 
 ## Notes
 * I used the `html.parser` library
   * I didn't use the `beautiful_soup` library because I couldn't get it
-    installed correctly got tired of messing around with my system.
+    installed correctly and got tired of messing around with my system.
   * I would've preferred to use that library (instead of writing a class to
     extend the `HTMLParser` class) but here we are.
   * To run this code, you'll need to install the `html` python library (`pip
     install html`) if you haven't already.
 * For the ordering of the votes (matters for votes like `90-9` vs. `9-90`) I
-  used the yea nay order listed on senate.gov itself.
-* Like before, I assumed that the dash isn't part of the string we consider for
+  used the yea nay order listed on [senate.gov](https://www.senate.gov/legislative/votes.htm) itself.
+* Like before, I assumed that the hyphen isn't part of the string we consider for
   palindrome checking.
 
 ## Results
