@@ -35,3 +35,15 @@ sizes=[[1,12],[2,12], [3,4.5], [4,3], [5,12], [6,22.5], [7,6], [8,6], [9,12], [1
 
 for entry in sizes:
     puzzle.nodes[entry[0]].setSize(entry[1])
+
+
+blue=0
+red=1
+yellow=2
+green=3
+
+validColoring=[green, blue, yellow, blue, red, green, green, blue, blue, yellow, yellow, red, blue, red]
+wrongSize=[green, blue, yellow, green, red, green, green, blue, blue, yellow, yellow, red, blue, red] #the sizes don't add up
+invalidColoring=[green, blue, green, blue, red, green, green, blue, blue, yellow, yellow, red, blue, red] #colors are touching
+
+
