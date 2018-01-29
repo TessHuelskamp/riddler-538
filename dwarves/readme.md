@@ -59,3 +59,7 @@ Also here's the percentage that each dwarf is in their own bed:
 * E 0.708
 * F 0.611
 * G 0.416
+
+
+# Update
+This solution was the random winner! [Link](https://fivethirtyeight.com/features/draw-a-circle-then-draw-a-triangle-now-solve-a-riddle/)
