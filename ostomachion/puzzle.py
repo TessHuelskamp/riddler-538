@@ -27,14 +27,14 @@ class Graph():
     #index in list is the color(0,1,2,3) that node would be assigned
     def validColoring(self, coloring):
 
-        #check to see if the sizes are all equal (they should all be six)
+        #check to see if the sizes are all equal (they should all be 36)
         sizeSums=[0,0,0,0]
 
         for node, color in enumerate(coloring):
             sizeSums[color]+=self.nodes[node].size
 
         for result in sizeSums:
-            if result!=36: False
+            if result!=36: return False
 
 
         #now check to make sure that no two nodes have the same neighbor
