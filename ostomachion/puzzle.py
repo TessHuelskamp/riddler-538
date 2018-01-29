@@ -5,7 +5,10 @@
 # number 14 is number 0 here.
 
 
-# brute force-able since with 14 spots and 4 colors there are only 38416 possible colorings (most of which are invalid)
+# should brute force-able since with 14 spots and 4 colors there are only 268,435,456 possible colorings (most of which are invalid)
+
+
+from itertools import product
 
 
 class myNode():
@@ -73,4 +76,14 @@ assert puzzle.validColoring(validColoring)
 assert not puzzle.validColoring(wrongSize)
 assert not puzzle.validColoring(invalidColoring)
 
+valid=0
+total=0
+for coloring in product("0123", repeat=14):
+    #coerce the types :(
+    coloring=[int(x) for x in coloring]
+    total+=1
+    if puzzle.validColoring(coloring):
+        valid+=0
+        print(total, coloring)
 
+print("There are {} correct colorings out of {}.".format(valid,total))
