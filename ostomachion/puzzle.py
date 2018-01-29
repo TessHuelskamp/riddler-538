@@ -31,7 +31,7 @@ for entry in neighbors:
     newNode.setNeighbors(entry[1])
     puzzle.nodes[entry[0]]=newNode
 
-sizes=[[1,12],[2,12], [3,4.5], [4,3], [5,12], [6,22.5], [7,6], [8,6], [9,12], [10,12], [11,24] , [12,6], [13, 9], [0, 3]]
+sizes=[[1,12],[2,12], [3,6], [4,3], [5,12], [6,21], [7,6], [8,6], [9,12], [10,12], [11,24] , [12,6], [13, 9], [0, 3]]
 
 for entry in sizes:
     puzzle.nodes[entry[0]].setSize(entry[1])
