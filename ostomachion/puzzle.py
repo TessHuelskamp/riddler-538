@@ -20,6 +20,28 @@ class myNode():
 class Graph():
     nodes=dict()
 
+    #coloring is a list of colors.
+    #index in list is the color(0,1,2,3) that node would be assigned
+    def validColoring(self, coloring):
+
+        #check to see if the sizes are all equal (they should all be six)
+        sizeSums=[0,0,0,0]
+
+        for node, color in enumerate(coloring):
+            sizeSums[color]+=self.nodes[node].size
+
+        for result in sizeSums:
+            if result!=36: False
+
+
+        #now check to make sure that no two nodes have the same neighbor
+        for node, color in enumerate(coloring):
+            for neighbor in self.nodes[node].neighbors:
+                if color == coloring[neighbor]: return False
+
+        return True
+
+
 # set up puzzle
 puzzle=Graph()
 
@@ -45,5 +67,10 @@ green=3
 validColoring=[green, blue, yellow, blue, red, green, green, blue, blue, yellow, yellow, red, blue, red]
 wrongSize=[green, blue, yellow, green, red, green, green, blue, blue, yellow, yellow, red, blue, red] #the sizes don't add up
 invalidColoring=[green, blue, green, blue, red, green, green, blue, blue, yellow, yellow, red, blue, red] #colors are touching
+
+
+assert puzzle.validColoring(validColoring)
+assert not puzzle.validColoring(wrongSize)
+assert not puzzle.validColoring(invalidColoring)
 
 
