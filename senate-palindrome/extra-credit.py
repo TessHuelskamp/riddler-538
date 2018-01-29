@@ -4,18 +4,24 @@ import requests
 from html.parser import HTMLParser
 import re
 
+class voteStruct():
+    yea=0
+    nay=0
+    senateNo=0
+    yearNo=0
+    voteNo=0
+
 class VoteParser(HTMLParser):
+    # ID for which senate a vote belonged to
+    senateNo=None
+    yearNo=None
 
-    # SenateNumber
-    senateNumber=None
-
-    # The vote entry looks like something like this.
-    # '10\xa0(68-27)'
-    # The \x comes from the &nbsp;
-    # For now, I'll leave the `.*` in the regex even though I could write something more accuate.
-    voteRegex=r"(\d+.*\(\d+-\d+\))"
-
+    # A list of all the votes we found
     votes=list()
+
+    def setSenate(self, senate): self.senateNo=senate
+    def setYear(self, year): self.yearNo=year
+
 
     # the vote content is only ever in the "td" tags.
     # Reduce the search space to vote content only
@@ -25,26 +31,33 @@ class VoteParser(HTMLParser):
     def handle_endtag(self, startTag):
         if startTag=="td": self.whatWeWant=False
 
+    # The vote entry looks like something like this.
+    # '10\xa0(68-27)'
+    # The \x comes from the &nbsp;
+    # For now, I'll leave the `.*` in the regex even though I could write something more accuate.
+    voteRegex=r"(\d+).*\((\d+)-(\d+)\)"
     def handle_data(self, data):
         if not self.whatWeWant: return
 
         if re.search(self.voteRegex, data):
             match=re.search(self.voteRegex, data)
-            vote=self.senateNumber+" "+match.group(0)
-            self.votes.append(vote)
 
-    def setYear(self, senateNumber): self.senateNumber=senateNumber
+            #create a new vote entry and store it for later
+            newVote=voteStruct()
+            newVote.voteNo, newVote.yea, newVote.nay = match.groups()
+            newVote.yearNo=self.yearNo
+            newVote.senateNo=self.senateNo
+            self.votes.append(newVote)
+
 
     def displayPalindromes(self):
 
         printString="Senate number {} in year {} had a palindrome vote ({}-{}) on vote number {}."
 
         for vote in self.votes:
-            match=re.search(r"(\d+)-(\d+) (\d+).*\((\d+)-(\d+)\)", vote)
-            congress, year, voteNo, yea, nay=match.groups()
 
-            if self.isPalindrome(yea, nay):
-                print(printString.format( congress, year, yea, nay, voteNo))
+            if self.isPalindrome(vote.yea, vote.nay):
+                print(printString.format( vote.senateNo, vote.yearNo, vote.yea, vote.nay, vote.voteNo))
 
     def isPalindrome(self, yea, nay):
         both=str(yea)+str(nay)
@@ -57,10 +70,13 @@ class VoteParser(HTMLParser):
 parser=VoteParser(convert_charrefs=True)
 
 baseURL="https://www.senate.gov/legislative/LIS/roll_call_lists/vote_menu_{}_{}.htm"
-senateID="{}-{}"
+
+#gather all data
 for senate in range(101,116):
     for year in [1,2]:
-        parser.setYear(senateID.format(senate,year))
+        parser.setSenate(senate)
+        parser.setYear(year)
+
         url=baseURL.format(senate, year)
 
         page=requests.get(url)
@@ -72,4 +88,3 @@ for senate in range(101,116):
         parser.feed(str(page.content))
 
 parser.displayPalindromes()
-
