@@ -83,7 +83,7 @@ for coloring in product("0123", repeat=14):
     coloring=[int(x) for x in coloring]
     total+=1
     if puzzle.validColoring(coloring):
-        valid+=0
+        valid+=1
         print(total, coloring)
 
 print("There are {} correct colorings out of {}.".format(valid,total))
