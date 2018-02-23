@@ -12,3 +12,13 @@
 # Soln
 
 This one looks like we need to run a lot of games and see what happens :)
+
+Wrote some c++ code that checks this out.
+
+# Compile and run everything
+
+g++ -std=c++11  token.cpp  && ./a.out
+
+# Answer
+
+Percentage that I win: 0.57225
