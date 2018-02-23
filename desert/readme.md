@@ -52,15 +52,40 @@ dir (TODO: fix that).
    corner of the map (go up/down (y-y0) left/right (x-x0)).
 1. If at that point there is _not_ a trooper there, person A will go back to
    where they started.
-1. Then, Person A would assume they were the next lower left hand (?; TODO
+1. Then, Person A would assume they were the next lower left hand spot (?; TODO
    define ordering) person and then try to go to the spot closest to that.
 1. Eventually, through checking all of the spots A could have landed, A will
    eventually run into someone.
-1. When A does, A will know where A started (since we did this iteratively) and
-   A will know where A is currently.
-1. After that, A will be able to jut around the desert and collect everyone
-   (whoever A runs into will have to join the pack) and then they will be good.
+1. Then, whoever A runs into will check their map. Since A will be with the
+   person A found (lets call the found person B), the map will show where A
+   started (this is important for cases like one I'll draw below) and A and B
+   will then know where both of them currently are.
+1. Once A and B know where they are, they can jut around the desert and pick up
+   the rest of the troops one by one. (whoever they run into will have to join
+   the pack) and then they will all eventually be found.
 1. At the end they've all found each other but they don't seem any closer to
-   getting out. At least they have friends.
-1. Starting from the point in the lower left hand cor
+   getting out of the desert. At least they have friends.
+
+# Why B needs to check their map
+
+Let's say the map looks like what I drew below. The dots are people and the
+lines are drawn to show distance.
+
+The `+`, `@`, `&`, and `*` call out specific spots that I'll talk about later.
+
+```
+  . _ . _ . _ . _ .
+   \ / \ / \ / \ / \
+    @ _ & _ . _ . _ .
+   / \ / \ / \ / \ /
+  + _ * _ . _ . _ .
+
+```
+
+Let's say A lands at the spot marked with a `@`. Due to how we told A to check
+for points, A will assume that he is at the point marked with a `+` and will
+head right. Heading right one space, A _will_ hit a person. However it will be
+person `&` and not person `*` like A had thought. That's why B needs to check
+their map so that A and B can see where A actually was (one dot will be
+"missing" now that A and B are at the same location).
 
