@@ -1,5 +1,3 @@
-!usr/bin/python3
-
 """
 Calculate the number of possible different endings there are for the group stage of the world cup.
 
@@ -13,7 +11,6 @@ Ties are 1.
 from itertools import *
 
 TEAMS="ABCD"
-topTwo=True
 
 # grab the order of the games
 games=[x for x in combinations(TEAMS, 2)]
