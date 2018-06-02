@@ -18,16 +18,16 @@ width = lambda x : int(floor(log10(x))+1)
 
 from os import getenv
 getint = lambda x, y : int(getenv(x,y))
+# hacked booleans out of ints
+getbool = lambda x, y : False if int(getenv(x,y))==0 else True
 
 # global configuration variables
 NUM_TESTS=getint("NUM_TESTS", 1000)
 NUM_HOUSES=getint("NUM_HOUSES", 36)
 YEARS=getint("YEARS", 2)
-
-# hacked booleans out of ints
-SILENT=False if getint("SILENT", 1)==0 else True
-STATS=False if getint("STATS", 1)==0 else True
-SPECIAL=False if getint("SPECIAL", 0)==0 else True
+SILENT=getbool("SILENT", 1)
+STATS=getbool("STATS", 1)
+SPECIAL=getbool("SPECIAL", 0)
 
 # "enum"
 DESTROYED="X"
