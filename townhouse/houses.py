@@ -11,6 +11,7 @@
 # What is the average time it takes the entire street to fall?
 
 from random import shuffle
+from copy import copy
 
 from math import log10, floor
 width = lambda x : int(floor(log10(x))+1)
@@ -26,6 +27,7 @@ YEARS=getint("YEARS", 2)
 # hacked booleans out of ints
 SILENT=False if getint("SILENT", 1)==0 else True
 STATS=False if getint("STATS", 1)==0 else True
+SPECIAL=False if getint("SPECIAL", 0)==0 else True
 
 # "enum"
 DESTROYED="X"
@@ -36,10 +38,14 @@ class street:
     stringWidth=-1
     intervals=-1
 
-    def __init__(self, num=36):
+    def __init__(self, num, specific=None):
         self.N=num
-        self._buildStreet()
         self.stringWidth=width(num)
+
+        if specific == None:
+            self._buildStreet()
+        else:
+            self.houses=copy(specific)
 
 
     def _buildStreet(self):
@@ -126,3 +132,15 @@ if STATS:
 if STATS:
     average=sum([ result*occurances*YEARS for result, occurances in results.items() ])/float(NUM_TESTS)
     print "average", average
+
+if SPECIAL:
+    SILENT=False
+
+    print "best case"
+    bestCase=street(36,[i+1 for i in range(36)])
+    bestCase.howManyIntervals()
+
+    print "worst case"
+    worstCaseList=[36, 35, 34, 33, 32, 1, 31, 30, 29, 28, 27, 26, 25, 24, 23, 2, 22, 21, 20, 19, 18, 17, 16, 3, 15, 14, 13, 12, 11, 4, 10, 9, 8, 5, 7, 6]
+    worstCase=street(36, worstCaseList)
+    worstCase.howManyIntervals()

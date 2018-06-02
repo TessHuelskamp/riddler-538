@@ -102,4 +102,5 @@ To play with the output I've added the following integer enviornment variables t
 * `SILENT` -- Print out each iteration of the test. `1` is silent; `0` is not silent.
     * > This is really only useful if `NUM_TESTS` is set to `1` :)
 * `STATS` -- Calculate the average and spit out a "histogram". `1` is run stats; `0` is don't run stats.
+* `SPECIAL` -- Runs after all averages are calculated. Displays the best and worse case scenario. Default is `0`. `1` runs these cases; `0` doesn't.
 > If you mess with anything and want to return variables to their default value, I'd recommend running `unset VAR`.
