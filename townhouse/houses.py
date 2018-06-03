@@ -27,6 +27,7 @@ NUM_HOUSES=getint("NUM_HOUSES", 36)
 YEARS=getint("YEARS", 2)
 SILENT=getbool("SILENT", 1)
 STATS=getbool("STATS", 1)
+HIST=getbool("HIST", 0)
 SPECIAL=getbool("SPECIAL", 0)
 
 # "enum"
@@ -117,7 +118,7 @@ for _ in range(NUM_TESTS):
 
     results[result]+=1
 
-if STATS:
+if HIST:
     # print out "histogram"
     # This does help visualize results
 
@@ -131,7 +132,8 @@ if STATS:
 
 if STATS:
     average=sum([ result*occurances*YEARS for result, occurances in results.items() ])/float(NUM_TESTS)
-    print "average", average
+    print "NUM_HOUSES,NUM_TESTS,AVG"
+    print "{},{},{}".format(NUM_HOUSES, NUM_TESTS, average)
 
 if SPECIAL:
     SILENT=False
