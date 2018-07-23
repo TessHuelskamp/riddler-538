@@ -1,64 +1,87 @@
 
-graph=dict()
-allTeams=set()
+"""
+Smallest number of coins to make change for 1-99 cents
 
-# Decided to read csvs without the library since this is simple
-with open("data.csv", "r") as f:
-    for line in f:
-        teamA, scoreA, teamB, scoreB = line.split(",")
-        scoreA=int(scoreA)
-        scoreB=int(scoreB)
+Assuming that this is smallest for any transaction max (num coins for each number 1 through 99) not the average (which assumes each number 1 through 99 is equally likely).
 
-        #create entries when we see new teams
-        if teamA not in graph:
-            graph[teamA]=list()
-            allTeams.add(teamA)
-        if teamB not in graph:
-            graph[teamB]=list()
-            allTeams.add(teamB)
+Max is 4 coins.
 
-        if scoreA > scoreB:
-            # team A wins
-            # if teamB happens to be a TNC then teamA will be
-            # So, B "points to" A
-            graph[teamB].append(teamA)
-        else:
-            graph[teamA].append(teamB)
+We need to have a penny (1 cent coin) because we need to be able to make change for a penny. That limits the thing we need to check.
 
+Then we have 99c3 choices to try (100**3 which isn't bad)
 
-# starting with Villanova do a search (This is neither DFS or BFS since we
-# traverse the graph randomly with sets) to see who all can claim to be a
-# Transitive National Champion
+Then from that we need to calculate the number of coins to make things work (I have script for this somewhere I need to plug in)
 
-seen=set()
-toVisit=set()
+Then we're done
+thanks
+Writing this here since online python IDEs suck
+"""
+from itertools import combinations
+from copy import copy
 
-for team in graph["Villanova"]:
-    toVisit.add(team)
-    seen.add(team)
+MAX_AMOUNT=99
+ALL_AMOUNTS={c for c in range(1, MAX_AMOUNT+1)}
+MINT_SIZE=4
 
-while toVisit:
+def mintsGen():
+#hard coding penny in to save time
+  penny=1
+  for mint in combinations(ALL_AMOUNTS^{penny}, MINT_SIZE-1):
+    mint=set(mint) #:)
+    mint.add(penny)
+    yield mint
 
-    # grab a random entry from the teams we need to visit
-    visiting=toVisit.pop()
+def checkmint(mint):
+# /Dynamic Programming/
+# 
+# walk through how to do this
+# Recursion starting with 99
+# we start all of the changes we can make with only one coin
+# Then, we calculate the changes we can make with two coins. To do this we take all of the changes we could make with 1 coin and see the coins you can make by adding each coin from the mint with that coin.
+# we don't record anything we've seen before 
+# From the purses we can make with 2 coins we then make all the amounts we can make with 3 coins and so on
+# were done when we've made change for each amount  we need to make (we see 1-99)
+# I didn't choose to store how many coins each amount makes but you could add that j formation in. 
 
-    # for all of the teams that this team lost to, add them if we haven't seen them yet
-    for team in graph[visiting]:
-        if team not in seen:
-            seen.add(team)
-            toVisit.add(team)
+  Seen = set()
+  Round=0
+  PrevRound=set()
+  CurentRound=set()
 
+  while ALL_AMOUNTS - Seen:
+    Round+=1
 
-#The transitive national champs are all of the teams we saw on our walk.
-tncs=seen
+    PrevRound=copy(currentRound)
+    CurrentRound.clear()
 
-# Only thing I care about :)
-if "Michigan St" in tncs:
-    print("Michigan State is a transitive national champion!")
+    if Round==1:
+#load in mint
+      for coin in mint:
+        Seen.add(coin)
+        CurrentRound.add(coin)
+      continue
 
-# Not going to check on Michigan because, since we lost to them this year...
-# twice, if we're a seen they are too :(
+#product??
+    for amount in PrevRound:
+      for coin in mint:
+        CurChange = amount + coin:
+        if CurChange > MAX_AMOUNT or CurChange in Seen: continue
+        
+        CurrentRound.add(CurChange)
 
-print("There are {} transitive national champions out of {} total teams ({} percent).".format(\
-        len(tncs), len(allTeams), int(100*len(tncs)/float(len(allTeams)))))
-print("{} teams weren't transitive national champions :(".format(len(allTeams)-len(tncs)))
+    assert not CurrentRound.empty()
+
+  return Round
+
+BestMint=None
+SmallestCoin=None
+
+for mint in mintsGen():
+  cur=checkmint(mint)
+
+  if not SmallestCoin or cur < smallestCoin:
+    BestMint = mint
+    SmallestCoin = cur
+
+print(BestMint)
+print(SmallestCoin)
