@@ -21,8 +21,8 @@ public class Board {
             Arrays.asList(7, 8, 9),
             //vert
             Arrays.asList(1, 4, 7),
-            Arrays.asList(3, 5, 8),
-            Arrays.asList(4, 6, 9),
+            Arrays.asList(2, 5, 8),
+            Arrays.asList(3, 6, 9),
             //diag
             Arrays.asList(1, 5, 9),
             Arrays.asList(3, 5, 7)
