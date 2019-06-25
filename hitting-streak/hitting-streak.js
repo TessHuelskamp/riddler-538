@@ -5,7 +5,7 @@ const swing = avg => Math.random() <= avg;
 
 // A game has a base hit if the player hits any of the 12 balls thrown at him
 const game = avg => {
-    for (var i=0; i<12; i++){
+    for (var i=0; i<4; i++){
         if (swing(avg)){
             return true
         }
@@ -55,7 +55,7 @@ for(var i=0; i<tests.length; i++){
     }
 }
 
-let numTests = 1000;
+let numTests = 10000;
 const runTests = (avg, numGames) => {
 
     var totalStreakBreaks=0;
@@ -73,15 +73,11 @@ const runTests = (avg, numGames) => {
         }
 
     }
-    return Math.floor(100*totalStreakBreaks/numTests);
+    return 100*totalStreakBreaks/numTests;
 }
 
 let GAMES_PER_SEASON=160
 players_games = [
-        [ .100, 20*GAMES_PER_SEASON ],
-        [ .125, 20*GAMES_PER_SEASON ],
-        [ .15, 20*GAMES_PER_SEASON ],
-        [ .175, 20*GAMES_PER_SEASON ],
         [ .200, 20*GAMES_PER_SEASON ],
         [ .250, 20*GAMES_PER_SEASON ],
         [ .300, 20*GAMES_PER_SEASON ],

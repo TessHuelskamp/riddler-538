@@ -18,22 +18,20 @@ Instead of doing math, 😇, I wrote some [code](./hitting-streak.js) (usage: `n
 
 | Also, decided to learn javascript this weekend so no guarentees on this being Good Code :)
 
-# Results
+# Edit
 
-Looks like the player with the batting average of `.200` will break Joe DiMaggio's streak 96 percent of the time.
-Everyone else will break his streak 100 percent of the time
+Turns out that my "issue" with this problem was that I didn't know how baseball worked.
+
+
+Updated my code to match real life, and got something close to the answer:
 
 ## Raw results
+```
+0.2 will beat the streak with 3200 games 0 percent of the time
+0.25 will beat the streak with 3200 games 0 percent of the time
+0.3 will beat the streak with 3200 games 0.01 percent of the time
+0.35 will beat the streak with 3200 games 0.58 percent of the time
+0.4 will beat the streak with 3200 games 10.35 percent of the time
+0.5 will beat the streak with 1600 games 90.84 percent of the time
+```
 
-```
-0.1 will beat the streak with 3200 games 0 percent of the time
-0.125 will beat the streak with 3200 games 0 percent of the time
-0.15 will beat the streak with 3200 games 4 percent of the time
-0.175 will beat the streak with 3200 games 50 percent of the time
-0.2 will beat the streak with 3200 games 96 percent of the time
-0.25 will beat the streak with 3200 games 100 percent of the time
-0.3 will beat the streak with 3200 games 100 percent of the time
-0.35 will beat the streak with 3200 games 100 percent of the time
-0.4 will beat the streak with 3200 games 100 percent of the time
-0.5 will beat the streak with 1600 games 100 percent of the time
-```
