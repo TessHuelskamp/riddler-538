@@ -38,7 +38,8 @@ for i in range(2, 100000):
 
     if sumFactors == iInCM:
         print(i, iInCM, factors)
-      
+        
+# Riddler classic on https://fivethirtyeight.com/features/how-many-friends-are-on-the-riddler-social-network/?ex_cid=the-riddler
 # python THISFILE.py
 # (36, 91, [1, 2, 3, 4, 6, 9, 12, 18, 36])
 # (378, 960, [1, 2, 3, 6, 7, 9, 14, 18, 21, 27, 42, 54, 63, 126, 189, 378])
